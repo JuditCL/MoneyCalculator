@@ -3,6 +3,7 @@ package moneycalculator;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.PopupMenu;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -36,12 +37,14 @@ public class MoneyPanel extends JPanel{
         JPanel myPanel = new JPanel();
         JLabel myText = new JLabel("de ");
         JLabel myText1 = new JLabel("a ");
+        JButton calculate = new JButton("Calcular");
         JComboBox de = new JComboBox(divisas);
         JComboBox a = new JComboBox(divisas);
         myPanel.add(myText);
         myPanel.add(de);
         myPanel.add(myText1);
         myPanel.add(a);
+        myPanel.add(calculate);
         return myPanel;
     }
 
