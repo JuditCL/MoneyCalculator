@@ -3,6 +3,8 @@ package moneycalculator;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.PopupMenu;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -11,6 +13,8 @@ import javax.swing.JTextField;
 
 public class MoneyPanel extends JPanel{
     private JPanel panel;
+    private JTextField money;
+    private JTextField result;
     public MoneyPanel() {
         this.panel = new JPanel();
     }
@@ -25,7 +29,7 @@ public class MoneyPanel extends JPanel{
     private JPanel money() {
         JPanel myPanel = new JPanel();
         JLabel myText = new JLabel("Por favor inserte aquí la cantidad de dinero: ");
-        JTextField money = new JTextField(10);
+        money = new JTextField(10);
         money.setEditable(true);
         myPanel.add(myText);
         myPanel.add(money);
@@ -45,20 +49,40 @@ public class MoneyPanel extends JPanel{
         myPanel.add(myText1);
         myPanel.add(a);
         myPanel.add(calculate);
+        ActionListener loginButtonListener = new LoginButtonListener();
+	calculate.addActionListener(loginButtonListener);
         return myPanel;
     }
 
     private JPanel result() {
         JPanel myPanel = new JPanel();
         JLabel myText = new JLabel("El resultado es: ");
-        JTextField myField = new JTextField("0.00",5);
+        result = new JTextField("0.00",5);
         JTextField myDivisa = new JTextField("€",2);
-        myField.setEditable(false);
+        result.setEditable(false);
         myDivisa.setEditable(false);
         myPanel.add(myText);
-        myPanel.add(myField);
+        myPanel.add(result);
         myPanel.add(myDivisa);
         return myPanel;
     }
     
+    public int getValue(){
+        String result = money.getText();
+        if(result.equals("")) return 0; 
+        else return Integer.parseInt(result);
+    }
+    
+    public void setValue(int value){
+        result.setText(Integer.toString(value));
+    }
+    class LoginButtonListener implements ActionListener {
+        
+    @Override
+    public void actionPerformed(ActionEvent ae) {
+        setValue(getValue());
+    }
+    
 }
+}
+
