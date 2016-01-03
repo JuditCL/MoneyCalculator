@@ -30,10 +30,12 @@ public class Application extends JFrame{
                 
     }
     public Application() throws IOException{
-        this.setTitle("Money Calculator");
-        this.setMinimumSize(new Dimension(500,500));
+        this.setTitle("Money Calculator               Por: Judit");
+        this.setMinimumSize(new Dimension(500,200));
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.getContentPane().add(new MoneyPanel());
+        MoneyPanel panel = new MoneyPanel();
+        panel.addElemnts();
+        this.getContentPane().add(panel);
     }
     
 }
