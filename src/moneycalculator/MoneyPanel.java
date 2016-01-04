@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -11,22 +13,26 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import moneycalculator.control.ExchangeCommand;
 import moneycalculator.control.ExtractDatabase;
-import moneycalculator.persistence.MockExchangeRateReader;
-import moneycalculator.ui.MockCurrencyDialog;
-import moneycalculator.ui.MockMoneyDialog;
-import moneycalculator.ui.MockMoneyDisplay;
-
+import moneycalculator.model.CurrencySet;
+import moneycalculator.model.Money;
+import moneycalculator.model.ExchangeRate;
+import moneycalculator.process.MoneyExchanger;
 public class MoneyPanel extends JPanel{
     private JPanel panel;
     private JTextField money;
     private JTextField result;
     private ExtractDatabase database;
+    private JComboBox de;
+    private JComboBox a;
+    private CurrencySet currencySet;
+    
     public MoneyPanel() {
     }
 
-    MoneyPanel(ExtractDatabase database) {
+    MoneyPanel(ExtractDatabase database) throws SQLException {
         this.panel = new JPanel();
         this.database = database;
+        this.currencySet = new CurrencySet(database.initializeSet());
     }
 
     public void addElemnts() throws SQLException {
@@ -52,8 +58,8 @@ public class MoneyPanel extends JPanel{
         JLabel myText1 = new JLabel("a ");
         JButton calculate = new JButton("Calcular");
         String[] combo = database.getNameDivisas();
-        JComboBox de = new JComboBox(combo);
-        JComboBox a = new JComboBox(combo);
+        de = new JComboBox(combo);
+        a = new JComboBox(combo);
         myPanel.add(myText);
         myPanel.add(de);
         myPanel.add(myText1);
@@ -91,14 +97,17 @@ public class MoneyPanel extends JPanel{
         
     @Override
     public void actionPerformed(ActionEvent ae) {
-        ExchangeCommand exchangeCommand = new ExchangeCommand(
-            new MockMoneyDialog(),
-            new MockCurrencyDialog(),
-            new MockExchangeRateReader(), 
-            new MockMoneyDisplay()
-        );
-        exchangeCommand.execute();
-        setValue(getValue());
+        ExchangeCommand exchangeCommand;
+        try {
+            exchangeCommand = new ExchangeCommand(new Money(getValue(), currencySet.get(String.valueOf(de.getSelectedItem()))),
+                    new ExchangeRate(currencySet.get(String.valueOf(de.getSelectedItem())),currencySet.get(String.valueOf(a.getSelectedItem())),database.getExchange(String.valueOf(a.getSelectedItem()))),
+                    new MoneyExchanger());
+            exchangeCommand.execute();
+        setValue((float) exchangeCommand.getResult().getAmount());
+        } catch (SQLException ex) {
+            Logger.getLogger(MoneyPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
     
 }

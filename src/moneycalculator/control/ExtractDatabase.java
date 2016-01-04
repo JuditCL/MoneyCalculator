@@ -13,7 +13,7 @@ import java.util.List;
 import moneycalculator.model.Currency;
 
 public class ExtractDatabase {
-    private Statement statement;
+    private final Statement statement;
     public ExtractDatabase() throws ClassNotFoundException, SQLException {
         Class.forName("org.sqlite.JDBC");
         Connection cn = DriverManager.getConnection("jdbc:sqlite:Divisas");
@@ -22,7 +22,7 @@ public class ExtractDatabase {
     
     public String[] getNameDivisas() throws SQLException{
         ResultSet rs = statement.executeQuery("SELECT nombre FROM CAMBIO_EUR_A");
-        String[] result = new String[20];
+        String[] result = new String[21];
         int index = 0;
         while(rs.next()){
             result[index] = rs.getString("nombre");
@@ -31,13 +31,23 @@ public class ExtractDatabase {
         return result;
     }
 
-    public void initializeSet() throws SQLException {
+    public List<Currency> initializeSet() throws SQLException {
         ResultSet rs = statement.executeQuery("SELECT * FROM CAMBIO_EUR_A");
         List<Currency> list = new ArrayList<Currency>();
         while(rs.next()){
             list.add(new Currency(rs.getString("divisa"), rs.getString("nombre"), rs.getString("codigo")));
         }
-        
+        return list;
     }
     
+    public float getExchange(String name) throws SQLException{
+        ResultSet rs = statement.executeQuery("SELECT * FROM CAMBIO_EUR_A ");
+        //System.out.println(rs.getFloat("cambio"));
+        while(rs.next()){
+            if(rs.getString("nombre").equals(name)){
+                return rs.getFloat("cambio");
+            }
+        }
+        return 0;
+    }
 }
