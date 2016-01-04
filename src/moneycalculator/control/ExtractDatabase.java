@@ -41,8 +41,7 @@ public class ExtractDatabase {
     }
     
     public float getExchange(String name) throws SQLException{
-        ResultSet rs = statement.executeQuery("SELECT * FROM CAMBIO_EUR_A ");
-        //System.out.println(rs.getFloat("cambio"));
+        ResultSet rs = statement.executeQuery("SELECT * FROM CAMBIO_EUR_A");
         while(rs.next()){
             if(rs.getString("nombre").equals(name)){
                 return rs.getFloat("cambio");
