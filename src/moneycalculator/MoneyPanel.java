@@ -1,16 +1,9 @@
 package moneycalculator;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.PopupMenu;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import javax.swing.ComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -54,13 +47,13 @@ public class MoneyPanel extends JPanel{
     }
 
     private JPanel divisas() throws SQLException {
-        String[] divisas = {"Euros","Libras","Rublos","Dólares"};
         JPanel myPanel = new JPanel();
         JLabel myText = new JLabel("de ");
         JLabel myText1 = new JLabel("a ");
         JButton calculate = new JButton("Calcular");
-        JComboBox de = new JComboBox(database.getNameDivisas());
-        JComboBox a = new JComboBox(database.getNameDivisas());
+        String[] combo = database.getNameDivisas();
+        JComboBox de = new JComboBox(combo);
+        JComboBox a = new JComboBox(combo);
         myPanel.add(myText);
         myPanel.add(de);
         myPanel.add(myText1);
