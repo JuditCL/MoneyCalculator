@@ -15,7 +15,7 @@ public class Application extends JFrame{
     }
     public Application() throws IOException, ClassNotFoundException, SQLException{
         this.database = new ExtractDatabase();
-        this.setTitle("Money Calculator               Por: Judit");
+        this.setTitle("Money Calculator                                                  Por: Judit");
         this.setMinimumSize(new Dimension(500,200));
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         MoneyPanel panel = new MoneyPanel(database);
