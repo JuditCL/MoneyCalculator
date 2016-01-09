@@ -23,7 +23,6 @@ import moneycalculator.process.MoneyExchanger;
 
 public class MoneyPanel extends JPanel {
 
-    private final JPanel panel;
     private JTextField money;
     private JTextField result;
     private final ExtractDatabase database;
@@ -33,7 +32,6 @@ public class MoneyPanel extends JPanel {
     private JTextField myDivisa;
 
     public MoneyPanel(ExtractDatabase database) throws SQLException {
-        this.panel = new JPanel();
         this.database = database;
         this.currencySet = new CurrencySet(database.initializeSet());
     }
@@ -85,7 +83,15 @@ public class MoneyPanel extends JPanel {
         myPanel.add(myDivisa);
         return myPanel;
     }
-
+    
+    private JPanel panel() {
+        JPanel myPanel = new JPanel();
+        myPanel.setLayout(new BorderLayout());
+        myPanel.add(money(), "South");
+        myPanel.add(new MoneyMenuBar().addMenu(), "North");
+        return myPanel;
+    }
+    
     public float getValue() {
         String result = money.getText();
         if (result.equals("")) {
@@ -98,63 +104,37 @@ public class MoneyPanel extends JPanel {
     public void setValue(float value) {
         result.setText(Float.toString(value));
     }
-
-    private JMenuBar menu() {
-        JMenuBar menuBar = new JMenuBar();
-        JMenu menu = new JMenu("Menu");
-        menuBar.add(menu);
-        JMenuItem menuItem = new JMenuItem("A cerca de",
-                new ImageIcon("signo-de-interrogacion.jpg"));
-        ActionListener botonabout = new botonabout();
-        menuItem.addActionListener(botonabout);
-        menu.add(menuItem);
-        menuItem = new JMenuItem("Ayuda",
-                new ImageIcon("ayuda.jpg"));
-        ActionListener botonhelp = new botonhelp();
-        menuItem.addActionListener(botonhelp);
-        menu.add(menuItem);
-        menuBar.add(menu);
-        return menuBar;
+    
+    String deGet(){
+        return String.valueOf(de.getSelectedItem());
     }
-
-    private JPanel panel() {
-        JPanel myPanel = new JPanel();
-        myPanel.setLayout(new BorderLayout());
-        myPanel.add(money(), "South");
-        myPanel.add(menu(), "North");
-        return myPanel;
+    
+    public String aGet(){
+        return String.valueOf(a.getSelectedItem());
     }
-
-    class botonabout implements ActionListener {
-
-        @Override
-        public void actionPerformed(ActionEvent ae) {
-            JOptionPane.showOptionDialog(null, "Este programa se encarga de realizar cambio de divisas y ha sido realizado por Judit del Carmen Correa Luciano", "Acerca de MoneyCalculator", JOptionPane.INFORMATION_MESSAGE, JOptionPane.INFORMATION_MESSAGE, null, new Object[]{" OK "}, "OK");
-        }
-    }
-
+    
     class LoginButtonListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent ae) {
-            if (String.valueOf(de.getSelectedItem()).equals("euro")) {
+            if (deGet().equals("euro")) {
                 try {
-                    ExchangeCommand exchangeCommand = new ExchangeCommand(new Money(getValue(), currencySet.get(String.valueOf(de.getSelectedItem()))),
-                            new ExchangeRate(currencySet.get(String.valueOf(de.getSelectedItem())), currencySet.get(String.valueOf(a.getSelectedItem())), database.getExchange(String.valueOf(a.getSelectedItem()))),
-                            new MoneyExchanger());
+                    ExchangeCommand exchangeCommand = new ExchangeCommand(new moneycalculator.model.Money(getValue(), currencySet.get(deGet())),
+                            new moneycalculator.model.ExchangeRate(currencySet.get(deGet()), currencySet.get(aGet()), database.getExchange(aGet())),
+                            new moneycalculator.process.MoneyExchanger());
                     simpleConversor(exchangeCommand);
                 } catch (SQLException ex) {
                     JOptionPane.showOptionDialog(null, "Se ha detectado un error al acceder a la base de datos", "Error en la base de datos", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" Cancelar "}, "Cancelar");
                 }
             } else {
                 try {
-                    ExchangeCommand exchangeCommand = new ExchangeCommand(new Money(getValue(), currencySet.get(String.valueOf(de.getSelectedItem()))),
-                            new ExchangeRate(currencySet.get(String.valueOf(de.getSelectedItem())), currencySet.get("euro"), 1 / database.getExchange(String.valueOf(de.getSelectedItem()))),
-                            new MoneyExchanger());
+                    ExchangeCommand exchangeCommand = new ExchangeCommand(new moneycalculator.model.Money(getValue(), currencySet.get(deGet())),
+                            new moneycalculator.model.ExchangeRate(currencySet.get(deGet()), currencySet.get("euro"), 1 / database.getExchange(deGet())),
+                            new moneycalculator.process.MoneyExchanger());
                     doubleConversor(exchangeCommand);
                     exchangeCommand = new ExchangeCommand(exchangeCommand.getResult(),
-                            new ExchangeRate(currencySet.get("euro"), currencySet.get(String.valueOf(a.getSelectedItem())), database.getExchange(String.valueOf(a.getSelectedItem()))),
-                            new MoneyExchanger());
+                            new moneycalculator.model.ExchangeRate(currencySet.get("euro"), currencySet.get(aGet()), database.getExchange(aGet())),
+                            new moneycalculator.process.MoneyExchanger());
                     simpleConversor(exchangeCommand);
                 } catch (SQLException ex) {
                     JOptionPane.showOptionDialog(null, "Se ha detectado un error al acceder a la base de datos", "Error en la base de datos", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" Cancelar "}, "Cancelar");
@@ -175,20 +155,5 @@ public class MoneyPanel extends JPanel {
         private void setSimbol(String valueOf) {
             myDivisa.setText(valueOf);
         }
-    }
-
-    class botonhelp implements ActionListener {
-
-        public botonhelp() {
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent ae) {
-            JOptionPane.showOptionDialog(null, "Este programa pasa una cantidad de dinero especificada a otra ayudándonos de los menús de la pantalla para ello siga los siguientes pasos: \n"
-                    + "1º- Teclee la cantidad de dinero deseada en la barra editable pudiendo poner decimales\n"
-                    + "2º- En el primer elemento de selección especifique la moneda en la que esta esa cantidad \n"
-                    + "3º- Pulse calcular de esta manera se calculará el resultado y se mostrará la cantidad total y la divisa final abajo.", "Cómo usar", JOptionPane.INFORMATION_MESSAGE, JOptionPane.INFORMATION_MESSAGE, null, new Object[]{" OK "}, "OK");
-        }
-
     }
 }
