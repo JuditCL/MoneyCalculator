@@ -83,7 +83,7 @@ public class MoneyPanel extends JPanel {
         myPanel.add(myDivisa);
         return myPanel;
     }
-    
+
     private JPanel panel() {
         JPanel myPanel = new JPanel();
         myPanel.setLayout(new BorderLayout());
@@ -91,7 +91,7 @@ public class MoneyPanel extends JPanel {
         myPanel.add(new MoneyMenuBar().addMenu(), "North");
         return myPanel;
     }
-    
+
     public float getValue() {
         String result = money.getText();
         if (result.equals("")) {
@@ -104,30 +104,26 @@ public class MoneyPanel extends JPanel {
     public void setValue(float value) {
         result.setText(Float.toString(value));
     }
-    
-    String deGet(){
+
+    String deGet() {
         return String.valueOf(de.getSelectedItem());
     }
-    
-    public String aGet(){
+
+    public String aGet() {
         return String.valueOf(a.getSelectedItem());
     }
-    
+
     class LoginButtonListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent ae) {
-            if (deGet().equals("euro")) {
-                try {
+            try {
+                if (deGet().equals("euro")) {
                     ExchangeCommand exchangeCommand = new ExchangeCommand(new moneycalculator.model.Money(getValue(), currencySet.get(deGet())),
                             new moneycalculator.model.ExchangeRate(currencySet.get(deGet()), currencySet.get(aGet()), database.getExchange(aGet())),
                             new moneycalculator.process.MoneyExchanger());
                     simpleConversor(exchangeCommand);
-                } catch (SQLException ex) {
-                    JOptionPane.showOptionDialog(null, "Se ha detectado un error al acceder a la base de datos", "Error en la base de datos", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" Cancelar "}, "Cancelar");
-                }
-            } else {
-                try {
+                } else {
                     ExchangeCommand exchangeCommand = new ExchangeCommand(new moneycalculator.model.Money(getValue(), currencySet.get(deGet())),
                             new moneycalculator.model.ExchangeRate(currencySet.get(deGet()), currencySet.get("euro"), 1 / database.getExchange(deGet())),
                             new moneycalculator.process.MoneyExchanger());
@@ -136,9 +132,10 @@ public class MoneyPanel extends JPanel {
                             new moneycalculator.model.ExchangeRate(currencySet.get("euro"), currencySet.get(aGet()), database.getExchange(aGet())),
                             new moneycalculator.process.MoneyExchanger());
                     simpleConversor(exchangeCommand);
-                } catch (SQLException ex) {
-                    JOptionPane.showOptionDialog(null, "Se ha detectado un error al acceder a la base de datos", "Error en la base de datos", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" Cancelar "}, "Cancelar");
+
                 }
+            } catch (SQLException ex) {
+                JOptionPane.showOptionDialog(null, "Se ha detectado un error al acceder a la base de datos", "Error en la base de datos", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" Cancelar "}, "Cancelar");
             }
         }
 
