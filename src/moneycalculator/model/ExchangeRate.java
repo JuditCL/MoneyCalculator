@@ -1,5 +1,7 @@
 package moneycalculator.model;
-
+/******************************************************/
+/*MoneyCalculator por Judit del Carmen Correa Luciano */
+/******************************************************/
 public class ExchangeRate {
     private final Currency from;
     private final Currency to;

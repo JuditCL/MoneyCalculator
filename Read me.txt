@@ -1,0 +1,7 @@
+Práctica final del Money Calculator propuesta en clase, realizada por Judit del Carmen Correa Luciano.
+En esta práctica se adjuntan dos imágenes que se usan en la interfaz gráfica de la aplicación.
+También he añadido una base de datos sqlite con los datos de la práctica de base de datos para esta asignatura.
+Se han añadido funcionalidades extras además de lo requerido, estas son:
+1. Se puede hacer cualquier cambio de divisas, es decir, no solo de euro a otra si no cualquier combinación posible 
+de las divisas que constan en la base de datos.
+2. Se ha añadido un menú extra con información acerca del programa una breve guía de uso.

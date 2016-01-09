@@ -1,4 +1,7 @@
 package moneycalculator.control;
+/******************************************************/
+/*MoneyCalculator por Judit del Carmen Correa Luciano */
+/******************************************************/
 import moneycalculator.model.ExchangeRate;
 import moneycalculator.model.Money;
 import moneycalculator.process.MoneyExchanger;

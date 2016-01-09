@@ -1,25 +1,20 @@
 package moneycalculator;
-
+/******************************************************/
+/*MoneyCalculator por Judit del Carmen Correa Luciano */
+/******************************************************/
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import moneycalculator.control.ExchangeCommand;
 import moneycalculator.control.ExtractDatabase;
 import moneycalculator.model.CurrencySet;
-import moneycalculator.model.Money;
-import moneycalculator.model.ExchangeRate;
-import moneycalculator.process.MoneyExchanger;
 
 public class MoneyPanel extends JPanel {
 

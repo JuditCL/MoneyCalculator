@@ -2,7 +2,9 @@
  *Clase perteneciente al control que proporciona datos de la base de datos.
  */
 package moneycalculator.control;
-
+/******************************************************/
+/*MoneyCalculator por Judit del Carmen Correa Luciano */
+/******************************************************/
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -21,8 +23,9 @@ public class ExtractDatabase {
     }
     
     public String[] getNameDivisas() throws SQLException{
+        ResultSet leng = statement.executeQuery("SELECT count (*) as nombre from cambio_eur_a");
+        String[] result = new String[leng.getInt(1)];
         ResultSet rs = statement.executeQuery("SELECT nombre FROM CAMBIO_EUR_A");
-        String[] result = new String[21];
         int index = 0;
         while(rs.next()){
             result[index] = rs.getString("nombre");

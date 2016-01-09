@@ -1,5 +1,7 @@
 package moneycalculator.model;
-
+/******************************************************/
+/*MoneyCalculator por Judit del Carmen Correa Luciano */
+/******************************************************/
 public class Money {
     private final double amount;
     private final Currency currency;

@@ -1,5 +1,7 @@
 package moneycalculator;
-
+/******************************************************/
+/*MoneyCalculator por Judit del Carmen Correa Luciano */
+/******************************************************/
 import java.awt.Dimension;
 import java.io.IOException;
 import java.sql.SQLException;

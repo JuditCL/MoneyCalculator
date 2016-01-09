@@ -1,4 +1,7 @@
 package moneycalculator.model;
+/******************************************************/
+/*MoneyCalculator por Judit del Carmen Correa Luciano */
+/******************************************************/
 import java.util.List;
 
 public class CurrencySet {
